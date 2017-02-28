@@ -1,13 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+using UnityEngine.UI;
 public class ChooseShape : MonoBehaviour {
     public GameObject[] shapes;
     public GameObject currentShape;
     private int m_currentShapeNo;
     public Material[] materials;
     public Material currentMaterial;
-    
+
+	public Color32[] buttonColours;
+	public Image[] buttons;
     void Start()
     {
         ChooseCurrentShape(0);
@@ -22,6 +24,12 @@ public class ChooseShape : MonoBehaviour {
     public void ChooseCurrentColour(int colourNo)
     {
         currentMaterial = materials[colourNo];
+
+		for (int i = 0; i < 3; i++)
+		{
+			buttons [i].color = buttonColours [colourNo];
+		}
+
     }
 
     public Material CurrentMaterial()
