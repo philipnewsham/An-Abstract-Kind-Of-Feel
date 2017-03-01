@@ -16,6 +16,8 @@ public class BlockHeadMove : MonoBehaviour
 
 	private bool m_colourGet;
 	private bool m_shapeGet;
+
+    public float heartFillAmount = 0f;
 	void Start ()
     {
         m_rigidBody = GetComponent<Rigidbody>();
@@ -47,7 +49,13 @@ public class BlockHeadMove : MonoBehaviour
         {
             m_rigidBody.velocity = new Vector3(0, 0, 0);
             transform.eulerAngles = new Vector3(0, transform.eulerAngles.y - 90, 0);
-			m_canvasTransform.eulerAngles = new Vector3 (-45, m_canvasTransform.eulerAngles.y + 90f, 0);
+            if (!Physics.Raycast(floorCheck.position, m_downwards, 10f))
+            {
+                print("Nothing below!");
+                m_moving = false;
+                transform.eulerAngles = new Vector3(0, transform.eulerAngles.y + 180, 0);
+            }
+            m_canvasTransform.eulerAngles = new Vector3 (-45, m_canvasTransform.eulerAngles.y + 90f, 0);
             m_moving = true;
 			m_pushedOff = true;
         }
@@ -57,7 +65,7 @@ public class BlockHeadMove : MonoBehaviour
 	{
 		if (other.gameObject.tag == "Finish") 
 		{
-			Destroy (gameObject);
+			Destroy (gameObject, 0.5f);
 		}
 
 		if (other.gameObject.tag == "Art") 
@@ -85,7 +93,8 @@ public class BlockHeadMove : MonoBehaviour
 
 	void AddHeart()
 	{
-		heartImage.fillAmount += 0.5f;
+        heartFillAmount += 0.5f;
+		heartImage.fillAmount = heartFillAmount;
 	}
 
 }
